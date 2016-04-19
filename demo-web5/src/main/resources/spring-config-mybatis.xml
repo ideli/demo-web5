@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<!-- 设定别名,这里可以设定一些常用的别名,在Mapper可以使用,但是由于数据库的字段会存在下划线等,而java里面又不推荐使用,所以类似这样,就不推荐使用,而是使用resultMap和paramterMap -->
+	<typeAliases>
+		<typeAlias alias="UserMapper" type="com.meilele.common.shiro.dao.UserMapper"></typeAlias>
+		<typeAlias alias="UserToRoleMapper" type="com.meilele.common.shiro.dao.UserToRoleMapper"></typeAlias>
+		<typeAlias alias="RoleMapper" type="com.meilele.common.shiro.dao.RoleMapper"></typeAlias>
+		<typeAlias alias="RoleToResourceMapper" type="com.meilele.common.shiro.dao.RoleToResourceMapper"></typeAlias>
+		<typeAlias alias="ResourceMapper" type="com.meilele.common.shiro.dao.ResourceMapper"></typeAlias>
+	</typeAliases>
+	
+    <plugins>
+        <plugin interceptor="com.meilele.utils.PagePlugin">
+            <property name="dialect" value="mysql" />
+            <property name="pageSqlId" value=".*ByPage.*" />
+        </plugin>
+    </plugins>
+	
+	<!-- 增加mapper.xml文件 -->
+	<mappers>
+		<mapper resource="com/meilele/common/shiro/dao/mapper/UserMapper.xml"/>
+		<mapper resource="com/meilele/common/shiro/dao/mapper/UserToRoleMapper.xml"/>
+		<mapper resource="com/meilele/common/shiro/dao/mapper/RoleMapper.xml"/>
+		<mapper resource="com/meilele/common/shiro/dao/mapper/RoleToResourceMapper.xml"/>
+		<mapper resource="com/meilele/common/shiro/dao/mapper/ResourceMapper.xml"/>
+	</mappers>
+	
+</configuration> 

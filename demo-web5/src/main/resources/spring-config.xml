@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 扫描注解Bean -->
+    <context:component-scan base-package="com.meilele.common.shiro"/>
+
+    <!-- 开启AOP监听 只对当前配置文件有效 -->
+    <aop:aspectj-autoproxy expose-proxy="true"/>
+    
+    <bean id="configProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">  
+       <property name="locations">  
+           <list>  
+               	<value>classpath:resources.properties</value>
+               	<value>classpath:dbcp.properties</value>
+           </list>  
+       </property>  
+    </bean>  
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">  
+        <property name="properties" ref="configProperties" />  
+    </bean>  
+
+
+    <bean class="com.meilele.common.shiro.spring.SpringUtils"/>
+    
+    <!-- 数据库连接部分 start -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+  		<property name="username" value="${connection.username}"></property>
+  		<property name="password" value="${connection.password}"></property>
+  		<property name="url" value="${connection.url}"></property>
+  		<property name="driverClassName" value="${connection.driverClassName}"></property> 
+  		<property name="initialSize" value="${connection.initialSize}"></property>
+  		<property name="maxActive" value="${connection.maxActive}"></property>
+  		<property name="maxIdle" value="${connection.maxIdle}"></property>
+  		<property name="minIdle" value="${connection.minIdle}"></property>
+  		<property name="maxWait" value="${connection.maxWait}"></property>
+  		<property name="removeAbandoned" value="${connection.removeAbandoned}"></property>
+  		<property name="removeAbandonedTimeout" value="${connection.removeAbandonedTimeout}"></property>
+  		<property name="logAbandoned" value="${connection.logAbandoned}"></property>
+  		
+  		<property name="validationQuery" value="${connection.validationQuery}"></property>
+  		<property name="testWhileIdle" value="${connection.testWhileIdle}"></property>
+  		<property name="timeBetweenEvictionRunsMillis" value="${connection.timeBetweenEvictionRunsMillis}"></property>
+  		<property name="minEvictableIdleTimeMillis" value="${connection.minEvictableIdleTimeMillis}"></property>
+  		<property name="testOnBorrow" value="${connection.testOnBorrow}"></property>
+ 	</bean>
+ 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="configLocation" value="classpath:spring-config-mybatis.xml" />    
+        <property name="dataSource" ref="dataSource"/>  
+    </bean>
+    <!--数据库连接部分 end-->
+    
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+	  <property name="basePackage" value="com.meilele.common.*.dao" />
+	  <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>  
+  	</bean>
+    
+    <bean id="dataSourceProxy" class="org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy">
+        <property name="targetDataSource" ref="dataSource"/>
+    </bean>
+    
+    <!--事务管理器配置-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSourceProxy"/>
+    </bean>
+
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="*" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <aop:config expose-proxy="true" proxy-target-class="true">
+        <!-- 只对业务逻辑层实施事务 -->
+        <aop:pointcut id="txPointcut" expression="execution(* com.github.zhangkaitao.shiro.chapter16..service..*+.*(..))"/>
+        <aop:advisor id="txAdvisor" advice-ref="txAdvice" pointcut-ref="txPointcut"/>
+    </aop:config>
+    
+
+    <import resource="classpath:spring-config-cache.xml"/>
+    <import resource="classpath:spring-config-shiro.xml"/>
+</beans>
