@@ -21,8 +21,9 @@ public class SysUserFilter extends PathMatchingFilter {
     private UserService userService;
 
     @Override
-    protected boolean onPreHandle(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
-        String username = (String)SecurityUtils.getSubject().getPrincipal();
+    protected boolean onPreHandle(ServletRequest request, ServletResponse response,
+                                  Object mappedValue) throws Exception {
+        String username = (String) SecurityUtils.getSubject().getPrincipal();
         request.setAttribute(Constants.CURRENT_USER, userService.findByUsername(username));
         return true;
     }

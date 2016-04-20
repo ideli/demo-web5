@@ -14,15 +14,15 @@ import com.meilele.common.shiro.entity.User;
 
 @SuppressWarnings("unchecked")
 @Service("userService")
-public class UserServiceImpl implements UserService{
-    
+public class UserServiceImpl implements UserService {
+
     @Autowired
     private UserMapper userMapper;
 
     @Override
     public Set<String> findRoles(String username) {
-        User user =findByUsername(username);
-        if(user == null) {
+        User user = findByUsername(username);
+        if (user == null) {
             return Collections.EMPTY_SET;
         }
         List<Map<String, Object>> obMap = userMapper.selectRolesByUserName(username);
@@ -35,8 +35,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public Set<String> findPermissions(String username) {
-        User user =findByUsername(username);
-        if(user == null) {
+        User user = findByUsername(username);
+        if (user == null) {
             return Collections.EMPTY_SET;
         }
         List<Map<String, Object>> obMap = userMapper.selectPermissionsByUserName(username);

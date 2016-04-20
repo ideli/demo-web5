@@ -74,25 +74,27 @@ public class SpringCacheManagerWrapper implements CacheManager {
 
         @Override
         public int size() {
-            if(springCache.getNativeCache() instanceof Ehcache) {
+            if (springCache.getNativeCache() instanceof Ehcache) {
                 Ehcache ehcache = (Ehcache) springCache.getNativeCache();
                 return ehcache.getSize();
             }
-            throw new UnsupportedOperationException("invoke spring cache abstract size method not supported");
+            throw new UnsupportedOperationException(
+                "invoke spring cache abstract size method not supported");
         }
 
         @Override
         public Set keys() {
-            if(springCache.getNativeCache() instanceof Ehcache) {
+            if (springCache.getNativeCache() instanceof Ehcache) {
                 Ehcache ehcache = (Ehcache) springCache.getNativeCache();
                 return new HashSet(ehcache.getKeys());
             }
-            throw new UnsupportedOperationException("invoke spring cache abstract keys method not supported");
+            throw new UnsupportedOperationException(
+                "invoke spring cache abstract keys method not supported");
         }
 
         @Override
         public Collection values() {
-            if(springCache.getNativeCache() instanceof Ehcache) {
+            if (springCache.getNativeCache() instanceof Ehcache) {
                 Ehcache ehcache = (Ehcache) springCache.getNativeCache();
                 List keys = ehcache.getKeys();
                 if (!CollectionUtils.isEmpty(keys)) {
@@ -108,7 +110,8 @@ public class SpringCacheManagerWrapper implements CacheManager {
                     return Collections.emptyList();
                 }
             }
-            throw new UnsupportedOperationException("invoke spring cache abstract values method not supported");
+            throw new UnsupportedOperationException(
+                "invoke spring cache abstract values method not supported");
         }
     }
 }

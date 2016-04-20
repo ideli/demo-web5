@@ -1,15 +1,15 @@
 package com.meilele.common.shiro.entity;
 
 public class User {
-    private Long id;
+    private Long    id;
 
-    private Long organizationId;
+    private Long    organizationId;
 
-    private String username;
+    private String  username;
 
-    private String password;
+    private String  password;
 
-    private String salt;
+    private String  salt;
 
     private Boolean locked;
 

@@ -26,7 +26,7 @@ import java.lang.annotation.*;
  *
  * @author Zhang Kaitao
  */
-@Target({ElementType.PARAMETER})
+@Target({ ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface CurrentUser {

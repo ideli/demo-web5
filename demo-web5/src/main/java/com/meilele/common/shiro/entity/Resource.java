@@ -1,19 +1,19 @@
 package com.meilele.common.shiro.entity;
 
 public class Resource {
-    private Long id;
+    private Long    id;
 
-    private String name;
+    private String  name;
 
-    private String type;
+    private String  type;
 
-    private String url;
+    private String  url;
 
-    private Long parentId;
+    private Long    parentId;
 
-    private String parentIds;
+    private String  parentIds;
 
-    private String permission;
+    private String  permission;
 
     private Boolean available;
 

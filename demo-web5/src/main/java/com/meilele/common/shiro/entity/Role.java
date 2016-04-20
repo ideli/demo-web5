@@ -1,13 +1,13 @@
 package com.meilele.common.shiro.entity;
 
 public class Role {
-    private Long id;
+    private Long    id;
 
-    private String role;
+    private String  role;
 
-    private String description;
+    private String  description;
 
-    private String resourceIds;
+    private String  resourceIds;
 
     private Boolean available;
 

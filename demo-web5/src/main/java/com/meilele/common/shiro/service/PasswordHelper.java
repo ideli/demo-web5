@@ -20,9 +20,9 @@ public class PasswordHelper {
     private RandomNumberGenerator randomNumberGenerator = new SecureRandomNumberGenerator();
 
     @Value("${password.algorithmName}")
-    private String algorithmName = "md5";
+    private String                algorithmName         = "md5";
     @Value("${password.hashIterations}")
-    private int hashIterations = 2;
+    private int                   hashIterations        = 2;
 
     public void setRandomNumberGenerator(RandomNumberGenerator randomNumberGenerator) {
         this.randomNumberGenerator = randomNumberGenerator;
@@ -40,11 +40,8 @@ public class PasswordHelper {
 
         user.setSalt(randomNumberGenerator.nextBytes().toHex());
 
-        String newPassword = new SimpleHash(
-                algorithmName,
-                user.getPassword(),
-                ByteSource.Util.bytes(user.getCredentialsSalt()),
-                hashIterations).toHex();
+        String newPassword = new SimpleHash(algorithmName, user.getPassword(),
+            ByteSource.Util.bytes(user.getCredentialsSalt()), hashIterations).toHex();
 
         user.setPassword(newPassword);
     }

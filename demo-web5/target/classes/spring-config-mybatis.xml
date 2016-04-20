@@ -3,6 +3,10 @@
 	"http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 
+<!--     <settings>  
+        <setting name="logImpl" value="log4j"/>  
+    </settings>   -->
+
 	<!-- 设定别名,这里可以设定一些常用的别名,在Mapper可以使用,但是由于数据库的字段会存在下划线等,而java里面又不推荐使用,所以类似这样,就不推荐使用,而是使用resultMap和paramterMap -->
 	<typeAliases>
 		<typeAlias alias="UserMapper" type="com.meilele.common.shiro.dao.UserMapper"></typeAlias>
